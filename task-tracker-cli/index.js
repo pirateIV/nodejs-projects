@@ -58,10 +58,12 @@ function getUpdatedTask(id, payload) {
 }
 
 function getNewTask(description) {
-  let time = dateTimeFormat();
+  const time = dateTimeFormat();
+  const id =
+    tasks.length > 0 ? Math.max(...tasks.map((task) => task.id)) + 1 : 1;
 
   return {
-    id: tasks.length + 1,
+    id,
     description,
     status: "todo",
     createdAt: time,
