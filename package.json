@@ -1,0 +1,12 @@
+{
+  "name": "task-tracker-cli",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "keywords": [],
+  "license": "MIT",
+  "description": "Simple Node.js Task CLI for managing tasks",
+  "bin": {
+    "task-cli": "index.js"
+  }
+}
