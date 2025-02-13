@@ -9,14 +9,17 @@ import { commandLogs, dateTimeFormat } from "./helpers.js";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+// Path to the tasks JSON file
 const TASKS_PATH = path.join(__dirname, "tasks.json");
 
 let tasks = loadTasks();
 
+// Write tasks to file, or create a new one if unavailable
 function saveTasks(tasks) {
   return fs.writeFileSync(TASKS_PATH, JSON.stringify(tasks, null, 2), "utf-8");
 }
 
+// Get tasks from JSON file, if it exists
 function loadTasks() {
   try {
     const task = fs.readFileSync(TASKS_PATH, "utf-8");
@@ -26,6 +29,7 @@ function loadTasks() {
   }
 }
 
+// Helper to check if task exists
 function findTask(id) {
   const task = tasks.find((task) => task.id === Number(id));
   if (!task) {
@@ -34,6 +38,7 @@ function findTask(id) {
   return task;
 }
 
+// Helper to update and save tasks
 function updateTask(id, payload) {
   let taskId = Number(id);
   const updatedTask = getUpdatedTask(taskId, payload);
@@ -44,6 +49,7 @@ function updateTask(id, payload) {
   saveTasks(tasks);
 }
 
+// Helper to get updated task
 function getUpdatedTask(id, payload) {
   if (!isValidId(id)) return;
 
@@ -57,6 +63,7 @@ function getUpdatedTask(id, payload) {
   };
 }
 
+// Helper for Default format for a new task
 function getNewTask(description) {
   const time = dateTimeFormat();
   const id =
@@ -71,6 +78,7 @@ function getNewTask(description) {
   };
 }
 
+// Check if the id is a number
 function isValidId(id) {
   if (isNaN(Number(id))) {
     console.log("Invalid id, id must be a number.");
@@ -79,6 +87,7 @@ function isValidId(id) {
   return true;
 }
 
+// List of all available commands
 const commands = {
   list() {
     if (tasks.length === 0) {
@@ -132,8 +141,10 @@ const commands = {
   },
 };
 
+// Get command and arguments from the command line
 const [command, ...args] = argv.slice(2);
 
+// Execute the commands if it exists, otherwise show help
 if (command in commands) {
   commands[command](...args);
 } else {
